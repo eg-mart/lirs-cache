@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 #include "cache.hpp"
 #include "lirs_cache.hpp"
@@ -54,7 +55,7 @@ int main()
     lir_size = std::max<size_t>(size - hir_size, 1);
 #else
     std::cin >> size;
-    hir_size = std::max<size_t>(size / 3, 1);
+    hir_size = std::floor(std::cbrt(size));
     lir_size = std::max<size_t>(size - hir_size, 1);
 #endif // SET_HIRS_SIZE
 
