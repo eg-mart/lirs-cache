@@ -8,6 +8,8 @@ program1 = 'build/ideal'
 program2 = 'build/lirs'
 
 hits_diff = {}
+prog2_res = []
+prog1_res = []
 
 NUM_TESTS = 100
 MAX_NUM_REQUESTS = 10000
@@ -35,7 +37,11 @@ for test_id in range(NUM_TESTS):
         print(res2.stdout)
 
     hits_diff[cache_size] = (int(res1.stdout) - int(res2.stdout))
+    prog2_res.append(int(res2.stdout))
+    prog1_res.append(int(res1.stdout))
 
 hits_sorted = sorted(hits_diff.items(), key=lambda x: x[0])
-plt.plot([e[0] for e in hits_sorted], [e[1] for e in hits_sorted])
+plt.plot([i for i in range(NUM_TESTS)], sorted(prog1_res), label=program1)
+plt.plot([i for i in range(NUM_TESTS)], sorted(prog2_res), label=program2)
+plt.legend()
 plt.savefig(f"benchmark.png")
