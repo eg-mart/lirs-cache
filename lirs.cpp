@@ -18,10 +18,10 @@ int test_cache_verbose(cachelib::ICache<int, int, int(*)(int)>& cache, size_t te
         std::cin >> x;
 
         if (cache.lookup_update(x, slow_get_page)) {
-            std::cout << "HIT!" << std::endl;;
+            std::cout << "HIT!" << std::endl;
             hits++;
         } else {
-            std::cout << "NO HIT." << std::endl;;
+            std::cout << "NO HIT." << std::endl;
         }
 
         std::cout << "DUMP:" << std::endl;
@@ -60,7 +60,7 @@ int main()
 #endif // SET_HIRS_SIZE
 
     if (hir_size < 1 || lir_size < 1) {
-        std::cerr << "Error: size must be greater then 1" << std::endl;
+        std::cerr << "Error: size must be greater than 1" << std::endl;
         return 1;
     }
 
