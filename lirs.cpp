@@ -10,7 +10,7 @@ int slow_get_page(int key)
     return key;
 }
 
-int test_cache_verbose(cachelib::ICache<int, int, int(*)(int)>& cache, size_t test_count)
+int test_cache_verbose(cachelib::ICache<int, int>& cache, size_t test_count)
 {
     int x;
     int hits = 0;
@@ -32,7 +32,7 @@ int test_cache_verbose(cachelib::ICache<int, int, int(*)(int)>& cache, size_t te
     return hits;
 }
 
-int test_cache(cachelib::ICache<int, int, int(*)(int)>& cache, size_t test_count)
+int test_cache(cachelib::ICache<int, int>& cache, size_t test_count)
 {
     int x;
     int hits = 0;
@@ -67,7 +67,7 @@ int main()
     size_t test_count;
     std::cin >> test_count;
 
-    auto cache = cachelib::LIRSCache<int, int, int(*)(int)>(lir_size, hir_size);
+    auto cache = cachelib::LIRSCache<int, int>(lir_size, hir_size);
 
     int hits = 0;
 

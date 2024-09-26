@@ -6,13 +6,14 @@
 #include <queue>
 #include <list>
 #include <vector>
+#include <functional>
 
 #include "cache.hpp"
 
 namespace cachelib {
 
-template <typename KeyT, typename T, typename F>
-class IdealCache : public ICache<KeyT, T, F>
+template <typename KeyT, typename T>
+class IdealCache : public ICache<KeyT, T>
 {
 private:
     struct Block
@@ -57,7 +58,7 @@ public:
         return cache_.size() >= size_;
     }
 
-    bool lookup_update(KeyT key, F get_content)
+    bool lookup_update(KeyT key, std::function<T(KeyT)> get_content)
     {
         ReqIt elem_reqs = requests_.find(key);
         elem_reqs->second.pop();

@@ -5,13 +5,14 @@
 #include <unordered_map>
 #include <utility>
 #include <list>
+#include <functional>
 
 #include "cache.hpp"
 
 namespace cachelib {
 
-template <typename KeyT, typename T, typename F>
-class LRUCache : public ICache<KeyT, T, F>
+template <typename KeyT, typename T>
+class LRUCache : public ICache<KeyT, T>
 {
 private:
     using ListIt = typename std::list<std::pair<KeyT, T>>::iterator;
@@ -36,7 +37,7 @@ public:
         return cache_.size() >= size_;
     }
 
-    bool lookup_update(KeyT key, F get_content)
+    bool lookup_update(KeyT key, std::function<T(KeyT)> get_content)
     {
         HashIt cached_elem = hash_.find(key);
         if (cached_elem != hash_.end()) {

@@ -5,13 +5,14 @@
 #include <unordered_map>
 #include <list>
 #include <utility>
+#include <functional>
 
 #include "cache.hpp"
 
 namespace cachelib {
 
-template <typename KeyT, typename T, typename F>
-class LIRSCache : public ICache<KeyT, T, F>
+template <typename KeyT, typename T>
+class LIRSCache : public ICache<KeyT, T>
 {
 private:
 
@@ -80,7 +81,7 @@ public:
         std::cout << std::endl;
     }
 
-    bool lookup_update(KeyT key, F get_content)
+    bool lookup_update(KeyT key, std::function<T(KeyT)> get_content)
     {
         HashIt req_elem_it = hash_.find(key);
         
@@ -110,7 +111,7 @@ public:
     }
 
 private:
-    bool update_on_stack_hit_(BlockIt hit, F get_content)
+    bool update_on_stack_hit_(BlockIt hit, std::function<T(KeyT)> get_content)
     {
         bool is_last = (stack_.end() == hit);
         switch (hit->status) {
@@ -166,7 +167,7 @@ private:
         hirs_.splice(hirs_.begin(), hirs_, hit); 
     }
 
-    BlockIt update_on_miss_(KeyT key, F get_content)
+    BlockIt update_on_miss_(KeyT key, std::function<T(KeyT)> get_content)
     {
         if (is_cache_full() || (is_stack_full_() && is_hirs_full_() && size_hirs_ > 0)) {
             HashIt hirs_back_it = hash_.find(hirs_.back().key);

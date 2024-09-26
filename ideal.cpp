@@ -9,8 +9,7 @@ int slow_get_page(int key)
     return key;
 }
 
-int test_cache_verbose(cachelib::ICache<int, int, int(*)(int)>& cache,
-                       std::vector<int> tests)
+int test_cache_verbose(cachelib::ICache<int, int>& cache, std::vector<int> tests)
 {
     int hits = 0;
     for (size_t i = 0; i < tests.size(); i++) {
@@ -29,7 +28,7 @@ int test_cache_verbose(cachelib::ICache<int, int, int(*)(int)>& cache,
     return hits;
 }
 
-int test_cache(cachelib::ICache<int, int, int(*)(int)>& cache, std::vector<int> tests)
+int test_cache(cachelib::ICache<int, int>& cache, std::vector<int> tests)
 {
     int hits = 0;
     for (size_t i = 0; i < tests.size(); i++) {
@@ -55,7 +54,7 @@ int main()
         tests.push_back(tmp);
     }
 
-    auto cache = cachelib::IdealCache<int, int, int(*)(int)>(size, tests);
+    auto cache = cachelib::IdealCache<int, int>(size, tests);
 
     int hits = 0;
 
