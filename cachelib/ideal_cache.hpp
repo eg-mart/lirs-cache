@@ -34,7 +34,7 @@ private:
 
 
 public:
-    IdealCache(size_t size, std::vector<int> reqs) : size_(size)
+    IdealCache(size_t size, std::vector<KeyT> reqs) : size_(size)
     {
         for (int i = 0; i < reqs.size(); i++)
             requests_[reqs[i]].push(i);
