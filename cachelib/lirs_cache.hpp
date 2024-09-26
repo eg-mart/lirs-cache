@@ -49,7 +49,7 @@ public:
         , size_hirs_(size_hirs)
     {};
 
-    void dump()
+    void dump() const
     {
         std::cout << "STACK: ";
         for (auto e : stack_) {
@@ -100,12 +100,12 @@ public:
         return false;
     }
 
-    int get_size()
+    int get_size() const
     {
         return cache_.size();
     }
 
-    bool is_cache_full()
+    bool is_full() const
     {
         return cache_.size() >= size_lirs_ + size_hirs_;
     }
@@ -134,7 +134,7 @@ private:
                 return true;
 
             case BlockStatus::HIR_nonresident:
-                if (is_hirs_full_() || is_cache_full()) {
+                if (is_hirs_full_() || is_full()) {
                     HashIt hirs_back_it = hash_.find(hirs_.back().key);
                     if (hirs_back_it != hash_.end()) {
                         hirs_back_it->second->status = BlockStatus::HIR_nonresident;
@@ -169,7 +169,7 @@ private:
 
     BlockIt update_on_miss_(KeyT key, std::function<T(KeyT)> get_content)
     {
-        if (is_cache_full() || (is_stack_full_() && is_hirs_full_() && size_hirs_ > 0)) {
+        if (is_full() || (is_stack_full_() && is_hirs_full_() && size_hirs_ > 0)) {
             HashIt hirs_back_it = hash_.find(hirs_.back().key);
             if (hirs_back_it != hash_.end()) {
                 hirs_back_it->second->status = BlockStatus::HIR_nonresident;
@@ -214,12 +214,12 @@ private:
         }
     }
 
-    bool is_stack_full_()
+    bool is_stack_full_() const
     {
         return stack_.size() >= size_lirs_;
     }
 
-    bool is_hirs_full_()
+    bool is_hirs_full_() const
     {
         return hirs_.size() >= size_hirs_;
     }

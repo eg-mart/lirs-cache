@@ -11,7 +11,8 @@ class ICache
 public:
     virtual ~ICache() {}
     virtual bool lookup_update(KeyT key, std::function<T(KeyT)> get_content) = 0;
-    virtual void dump() = 0;
+    virtual void dump() const = 0;
+    virtual bool is_full() const = 0;
 };
 
 }

@@ -20,15 +20,15 @@ private:
     {
         KeyT key;
         T content;
-        std::queue<int>& req_queue;
+        std::queue<KeyT>& req_queue;
     };
 
-    using ListIt = typename std::list<Block>::iterator;
-    using HashIt = typename std::unordered_map<KeyT, ListIt>::iterator;
-    using ReqIt  = typename std::unordered_map<KeyT, std::queue<int>>::iterator;
+    using ConstListIt = typename std::list<Block>::const_iterator;
+    using HashIt = typename std::unordered_map<KeyT, ConstListIt>::iterator;
+    using ReqIt  = typename std::unordered_map<KeyT, std::queue<KeyT>>::iterator;
 
-    std::unordered_map<KeyT, std::queue<int>> requests_;
-    std::unordered_map<KeyT, ListIt> hash_;
+    std::unordered_map<KeyT, std::queue<KeyT>> requests_;
+    std::unordered_map<KeyT, ConstListIt> hash_;
     std::list<Block> cache_;
     size_t size_;
 
@@ -40,7 +40,7 @@ public:
             requests_[reqs[i]].push(i);
     };
 
-    void dump()
+    void dump() const
     {
         for (auto e : cache_) {
             std::cout << "(" << e.key << ") ";
@@ -53,7 +53,7 @@ public:
         }
     }
 
-    bool is_full()
+    bool is_full() const
     {
         return cache_.size() >= size_;
     }
@@ -79,12 +79,12 @@ public:
             return false;
         }
 
-        ListIt furthest_elem = get_furthest_element_();
+        ConstListIt furthest_elem = get_furthest_element_();
 
         if (furthest_elem->req_queue.empty() ||
             furthest_elem->req_queue.front() > elem_reqs->second.front()) {        
-            cache_.erase(furthest_elem);
             hash_.erase(furthest_elem->key);
+            cache_.erase(furthest_elem);
             cache_.push_front(new_elem);
             hash_[key] = cache_.begin();
         }
@@ -93,12 +93,12 @@ public:
     }
 
 private:
-    ListIt get_furthest_element_()
+    ConstListIt get_furthest_element_() const
     {
-        ListIt cur_max = cache_.end();
+        ConstListIt cur_max = cache_.cend();
         int cur_max_ind = -1;
 
-        for (ListIt it = cache_.begin(); it != cache_.end(); it++) {
+        for (ConstListIt it = cache_.cbegin(); it != cache_.cend(); it++) {
             if (it->req_queue.empty()) {
                 cur_max = it;
                 break;
