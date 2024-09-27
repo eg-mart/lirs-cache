@@ -6,6 +6,7 @@
 #include <queue>
 #include <list>
 #include <functional>
+#include <cassert>
 
 #include "cache.hpp"
 
@@ -83,6 +84,7 @@ public:
         }
 
         ConstListIt furthest_elem = get_furthest_element_();
+        assert(("furthest_elem iterator isn't valid\n", furthest_elem != cache_.cend()));
 
         if (furthest_elem->req_queue.empty() ||
             furthest_elem->req_queue.front() > elem_reqs->second.front()) {        
