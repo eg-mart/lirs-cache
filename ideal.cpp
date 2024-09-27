@@ -54,7 +54,7 @@ int main()
         tests.push_back(tmp);
     }
 
-    auto cache = cachelib::IdealCache<int, int>(size, tests);
+    auto cache = cachelib::IdealCache<int, int>(size, tests.begin(), tests.end());
 
     int hits = 0;
 

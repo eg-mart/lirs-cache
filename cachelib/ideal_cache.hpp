@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <queue>
 #include <list>
-#include <vector>
 #include <functional>
 
 #include "cache.hpp"
@@ -34,11 +33,15 @@ private:
 
 
 public:
-    IdealCache(size_t size, std::vector<KeyT> reqs) : size_(size)
+    template <typename Iterator>
+    IdealCache(size_t size, Iterator start, Iterator end) : size_(size)
     {
-        for (int i = 0; i < reqs.size(); i++)
-            requests_[reqs[i]].push(i);
-    };
+        size_t ind = 0;
+        for (Iterator it = start; it != end; it++) {
+            requests_[*it].push(ind);
+            ind++;
+        }
+    }
 
     void dump() const
     {
