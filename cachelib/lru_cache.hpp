@@ -54,7 +54,7 @@ public:
         }
 
         T content = get_content(key);
-        cache_.push_front(std::make_pair(key, content));
+        cache_.emplace(key, content);
         hash_[key] = cache_.begin();
 
         return false;

@@ -1,11 +1,13 @@
 #ifndef CACHE_LIRS_CACHE_H_
 #define CACHE_LIRS_CACHE_H_
 
+#include <algorithm>
 #include <iostream>
 #include <unordered_map>
 #include <list>
 #include <utility>
 #include <functional>
+#include <cassert>
 
 #include "cache.hpp"
 
@@ -89,11 +91,11 @@ public:
             return update_on_stack_hit_(req_elem_it->second, get_content);
         }
 
-        for (auto elem_it = hirs_.begin(); elem_it != hirs_.end(); elem_it++) {
-            if (elem_it->key == key) {
-                update_on_hirs_hit_(elem_it);
-                return true;
-            }
+        BlockIt elem_it = std::find_if(hirs_.begin(), hirs_.end(),
+            [&key](const Block& elem) { return key == elem.key; });
+        if (elem_it != hirs_.end()) {
+            update_on_hirs_hit_(elem_it);
+            return true;
         }
 
         BlockIt new_entry_it = update_on_miss_(key, get_content);
@@ -198,12 +200,12 @@ private:
 
     void remove_resident_hir_(KeyT key)
     {
-        for (BlockIt it = hirs_.begin(); it != hirs_.end(); it++) {
-            if (it->key == key) {
-                hirs_.erase(it);
-                break;
-            }
-        }
+        BlockIt res_hir = std::find_if(hirs_.begin(), hirs_.end(),
+            [&key](const Block& elem) { return key == elem.key; });
+        
+        assert(res_hir != hirs_.end());
+
+        hirs_.erase(res_hir);
     }
 
     void prune_stack_()
