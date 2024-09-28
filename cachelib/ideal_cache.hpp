@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <unordered_map>
-#include <queue>
+#include <deque>
 #include <list>
 #include <functional>
 #include <cassert>
@@ -20,14 +20,14 @@ private:
     {
         KeyT key;
         T content;
-        std::queue<KeyT>& req_queue;
+        std::deque<KeyT>& req_queue;
     };
 
     using ConstListIt = typename std::list<Block>::const_iterator;
     using HashIt = typename std::unordered_map<KeyT, ConstListIt>::iterator;
-    using ReqIt  = typename std::unordered_map<KeyT, std::queue<KeyT>>::iterator;
+    using ReqIt  = typename std::unordered_map<KeyT, std::deque<KeyT>>::iterator;
 
-    std::unordered_map<KeyT, std::queue<KeyT>> requests_;
+    std::unordered_map<KeyT, std::deque<KeyT>> requests_;
     std::unordered_map<KeyT, ConstListIt> hash_;
     std::list<Block> cache_;
     size_t size_;
@@ -39,7 +39,7 @@ public:
     {
         size_t ind = 0;
         for (Iterator it = start; it != end; it++) {
-            requests_[*it].push(ind);
+            requests_[*it].push_back(ind);
             ind++;
         }
     }
@@ -48,12 +48,9 @@ public:
     {
         for (auto e : cache_) {
             std::cout << "(" << e.key << ") ";
-            std::queue<int> queue_copy = e.req_queue;
-            while (!queue_copy.empty()) {
-                std::cout << queue_copy.front() << " ";
-                queue_copy.pop();
-            }
-            std::cout << std::endl;
+            for (auto q : e.req_queue)
+                std::cout << q << " ";
+            std::cout << "\n";
         }
     }
 
@@ -65,7 +62,7 @@ public:
     bool lookup_update(KeyT key, std::function<T(KeyT)> get_content)
     {
         ReqIt elem_reqs = requests_.find(key);
-        elem_reqs->second.pop();
+        elem_reqs->second.pop_front();
 
         HashIt cached_elem = hash_.find(key);
         if (cached_elem != hash_.end())

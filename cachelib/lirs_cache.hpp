@@ -72,15 +72,15 @@ public:
             std::cout << " ";
         }
             
-        std::cout << std::endl << "HIRS: ";
+        std::cout << "\nHIRS: ";
         for (auto e : hirs_)
             std::cout << e.key << " ";
 
-        std::cout << std::endl << "CONTENTS: ";
+        std::cout << "\nCONTENTS: ";
         for (auto e : cache_)
             std::cout << e << " ";
 
-        std::cout << std::endl;
+        std::cout << "\n";
     }
 
     bool lookup_update(KeyT key, std::function<T(KeyT)> get_content)
