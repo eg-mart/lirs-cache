@@ -1,50 +1,11 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <vector>
 
 #include "cache.hpp"
 #include "lirs_cache.hpp"
-
-int slow_get_page(int key)
-{
-    return key;
-}
-
-int test_cache_verbose(cachelib::ICache<int, int>& cache, size_t test_count)
-{
-    int x;
-    int hits = 0;
-    for (size_t i = 0; i < test_count; i++) {
-        std::cin >> x;
-
-        if (cache.lookup_update(x, slow_get_page)) {
-            std::cout << "HIT!" << std::endl;
-            hits++;
-        } else {
-            std::cout << "NO HIT." << std::endl;
-        }
-
-        std::cout << "DUMP:" << std::endl;
-        cache.dump();
-        std::cout << std::endl;
-    }
-
-    return hits;
-}
-
-int test_cache(cachelib::ICache<int, int>& cache, size_t test_count)
-{
-    int x;
-    int hits = 0;
-    for (size_t i = 0; i < test_count; i++) {
-        std::cin >> x;
-        
-        if (cache.lookup_update(x, slow_get_page))
-            hits++;
-    }
-
-    return hits;
-}
+#include "cache_test.hpp"
 
 int main()
 {
@@ -64,20 +25,23 @@ int main()
         return 1;
     }
 
-    size_t test_count;
+    size_t test_count = 0;
     std::cin >> test_count;
+    std::vector<int> tests(test_count); 
+    for (size_t i = 0; i < test_count; i++) {
+        std::cin >> tests[i];
+    }
 
     auto cache = cachelib::LIRSCache<int, int>(lir_size, hir_size);
 
-    int hits = 0;
-
+    bool verbose = false;
 #ifdef DEBUG_OUTPUT
-    hits = test_cache_verbose(cache, test_count); 
-#else
-    hits = test_cache(cache, test_count);
+    verbose = true;
 #endif // DEBUG_OUTPUT
 
-    std::cout << hits << std::endl;
+    int hits = test_cache(cache, tests.begin(), tests.end(), verbose); 
+
+    std::cout << hits << "\n";
 
     return 0;
 }
