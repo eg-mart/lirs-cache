@@ -1,0 +1,9 @@
+[project]
+name = "cache"
+version = "0.1.0"
+description = "Benchmarking of the different caches"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.9.2",
+]
