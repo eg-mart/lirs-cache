@@ -27,7 +27,7 @@ public:
 
     void dump() const
     {
-        for (auto e : cache_)
+        for (auto& e : cache_)
             std::cout << e.second << " ";
         std::cout << std::endl;
     }
@@ -53,8 +53,7 @@ public:
             cache_.pop_back();
         }
 
-        T content = get_content(key);
-        cache_.emplace(key, content);
+        cache_.emplace(key, get_content(key));
         hash_[key] = cache_.begin();
 
         return false;

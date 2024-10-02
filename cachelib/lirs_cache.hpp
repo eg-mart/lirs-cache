@@ -54,7 +54,7 @@ public:
     void dump() const
     {
         std::cout << "STACK: ";
-        for (auto e : stack_) {
+        for (auto& e : stack_) {
             std::cout << e.key;
             switch (e.status) {
                 case BlockStatus::LIR:
@@ -73,11 +73,11 @@ public:
         }
             
         std::cout << "\nHIRS: ";
-        for (auto e : hirs_)
+        for (auto& e : hirs_)
             std::cout << e.key << " ";
 
         std::cout << "\nCONTENTS: ";
-        for (auto e : cache_)
+        for (auto& e : cache_)
             std::cout << e << " ";
 
         std::cout << "\n";

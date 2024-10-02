@@ -20,14 +20,14 @@ private:
     {
         KeyT key;
         T content;
-        std::deque<KeyT>& req_queue;
+        std::deque<size_t>& req_queue;
     };
 
     using ConstListIt = typename std::list<Block>::const_iterator;
     using HashIt = typename std::unordered_map<KeyT, ConstListIt>::iterator;
-    using ReqIt  = typename std::unordered_map<KeyT, std::deque<KeyT>>::iterator;
+    using ReqIt  = typename std::unordered_map<KeyT, std::deque<size_t>>::iterator;
 
-    std::unordered_map<KeyT, std::deque<KeyT>> requests_;
+    std::unordered_map<KeyT, std::deque<size_t>> requests_;
     std::unordered_map<KeyT, ConstListIt> hash_;
     std::list<Block> cache_;
     size_t size_;
@@ -46,7 +46,7 @@ public:
 
     void dump() const
     {
-        for (auto e : cache_) {
+        for (auto& e : cache_) {
             std::cout << "(" << e.key << ") ";
             for (auto q : e.req_queue)
                 std::cout << q << " ";
@@ -98,7 +98,7 @@ private:
     ConstListIt get_furthest_element_() const
     {
         ConstListIt cur_max = cache_.cend();
-        int cur_max_ind = -1;
+        size_t cur_max_ind = -1;
 
         for (ConstListIt it = cache_.cbegin(); it != cache_.cend(); it++) {
             if (it->req_queue.empty()) {
@@ -106,7 +106,7 @@ private:
                 break;
             }
 
-            if (cur_max_ind < it->req_queue.front()) {
+            if (cur_max_ind < it->req_queue.front() | cur_max_ind == -1) {
                 cur_max_ind = it->req_queue.front();
                 cur_max = it;
             }
