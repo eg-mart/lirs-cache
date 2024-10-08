@@ -59,7 +59,7 @@ public:
         return cache_.size() >= size_;
     }
 
-    bool lookup_update(KeyT key, std::function<T(KeyT)> get_content)
+    bool lookup_update(KeyT& key, std::function<T(KeyT)> get_content)
     {
         ReqIt elem_reqs = requests_.find(key);
         elem_reqs->second.pop_front();

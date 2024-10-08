@@ -7,7 +7,8 @@
 namespace cachelib {
 
 template <typename Iterator>
-int test_cache(ICache<int, int>& cache, Iterator begin, Iterator end, bool verbose=false)
+int test_cache(ICache<int, int>& cache, Iterator begin, Iterator end,
+               bool verbose=false)
 {
     int hits = 0;
     for (Iterator it = begin; it != end; it++) {
