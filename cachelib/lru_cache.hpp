@@ -37,7 +37,7 @@ public:
         return cache_.size() >= size_;
     }
 
-    bool lookup_update(KeyT& key, std::function<T(KeyT)> get_content)
+    bool lookup_update(const KeyT& key, std::function<T(KeyT)> get_content)
     {
         HashIt cached_elem = hash_.find(key);
         if (cached_elem != hash_.end()) {

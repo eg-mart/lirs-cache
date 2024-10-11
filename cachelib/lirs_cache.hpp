@@ -83,7 +83,7 @@ public:
         std::cout << "\n";
     }
 
-    bool lookup_update(KeyT& key, std::function<T(KeyT)> get_content)
+    bool lookup_update(const KeyT& key, std::function<T(KeyT)> get_content)
     {
         HashIt req_elem_it = hash_.find(key);
         
@@ -169,7 +169,7 @@ private:
         hirs_.splice(hirs_.begin(), hirs_, hit); 
     }
 
-    BlockIt update_on_miss_(KeyT& key, std::function<T(KeyT)> get_content)
+    BlockIt update_on_miss_(const KeyT& key, std::function<T(KeyT)> get_content)
     {
         if (is_full() || (is_stack_full_() && is_hirs_full_() && size_hirs_ > 0)) {
             HashIt hirs_back_it = hash_.find(hirs_.back().key);
@@ -198,7 +198,7 @@ private:
         return stack_.begin();
     }
 
-    void remove_resident_hir_(KeyT& key)
+    void remove_resident_hir_(const KeyT& key)
     {
         BlockIt res_hir = std::find_if(hirs_.begin(), hirs_.end(),
             [&key](const Block& elem) { return key == elem.key; });
