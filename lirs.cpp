@@ -3,7 +3,6 @@
 #include <cmath>
 #include <vector>
 
-#include "cache.hpp"
 #include "lirs_cache.hpp"
 #include "cache_test.hpp"
 

@@ -9,12 +9,10 @@
 #include <functional>
 #include <cassert>
 
-#include "cache.hpp"
-
 namespace cachelib {
 
 template <typename KeyT, typename T>
-class LIRSCache : public ICache<KeyT, T>
+class LIRSCache
 {
 private:
 

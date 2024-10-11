@@ -8,12 +8,10 @@
 #include <functional>
 #include <cassert>
 
-#include "cache.hpp"
-
 namespace cachelib {
 
 template <typename KeyT, typename T>
-class IdealCache : public ICache<KeyT, T>
+class IdealCache
 {
 private:
     struct Block

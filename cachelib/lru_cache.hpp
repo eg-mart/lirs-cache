@@ -7,12 +7,10 @@
 #include <list>
 #include <functional>
 
-#include "cache.hpp"
-
 namespace cachelib {
 
 template <typename KeyT, typename T>
-class LRUCache : public ICache<KeyT, T>
+class LRUCache
 {
 private:
     using ListIt = typename std::list<std::pair<KeyT, T>>::iterator;

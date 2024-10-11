@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 
-#include "cache.hpp"
 #include "ideal_cache.hpp"
 #include "cache_test.hpp"
 

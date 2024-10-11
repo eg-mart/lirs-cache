@@ -2,12 +2,11 @@
 #define CACHE_CACHE_TEST_H_
 
 #include <iostream>
-#include "cache.hpp"
 
 namespace cachelib {
 
-template <typename Iterator>
-int test_cache(ICache<int, int>& cache, Iterator begin, Iterator end,
+template <typename CacheT, typename Iterator>
+int test_cache(CacheT cache, Iterator begin, Iterator end,
                bool verbose=false)
 {
     int hits = 0;
