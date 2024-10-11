@@ -24,7 +24,7 @@ int test_cache(ICache<int, int>& cache, Iterator begin, Iterator end,
 
     if (verbose) {
         std::cout << "DUMP:\n";
-        cache.dump();
+        cache.dump(std::cout);
         std::cout << std::endl;
     }
 

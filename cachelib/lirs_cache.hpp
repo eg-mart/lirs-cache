@@ -51,36 +51,36 @@ public:
         , size_hirs_(size_hirs)
     {};
 
-    void dump() const
+    void dump(std::ostream& os) const
     {
-        std::cout << "STACK: ";
+        os << "STACK: ";
         for (auto& e : stack_) {
-            std::cout << e.key;
+            os << e.key;
             switch (e.status) {
                 case BlockStatus::LIR:
-                    std::cout << "(LIR)";
+                    os << "(LIR)";
                     break;
                 case BlockStatus::HIR_resident:
-                    std::cout << "(res HIR)";
+                    os << "(res HIR)";
                     break;
                 case BlockStatus::HIR_nonresident:
-                    std::cout << "(nonres HIR)";
+                    os << "(nonres HIR)";
                     break;
                 default:
-                    std::cout << "(UNDEF STAT)";
+                    os << "(UNDEF STAT)";
             }
-            std::cout << " ";
+            os << " ";
         }
             
-        std::cout << "\nHIRS: ";
+        os << "\nHIRS: ";
         for (auto& e : hirs_)
-            std::cout << e.key << " ";
+            os << e.key << " ";
 
-        std::cout << "\nCONTENTS: ";
+        os << "\nCONTENTS: ";
         for (auto& e : cache_)
-            std::cout << e << " ";
+            os << e << " ";
 
-        std::cout << "\n";
+        os << "\n";
     }
 
     bool lookup_update(const KeyT& key, std::function<T(KeyT)> get_content)

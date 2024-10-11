@@ -44,13 +44,13 @@ public:
         }
     }
 
-    void dump() const
+    void dump(std::ostream& os) const
     {
         for (auto& e : cache_) {
-            std::cout << "(" << e.key << ") ";
+            os << "(" << e.key << ") ";
             for (auto q : e.req_queue)
-                std::cout << q << " ";
-            std::cout << "\n";
+                os << q << " ";
+            os << "\n";
         }
     }
 

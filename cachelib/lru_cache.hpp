@@ -25,11 +25,11 @@ private:
 public:
     LRUCache(size_t size) : size_(size) {};
 
-    void dump() const
+    void dump(std::ostream& os) const
     {
         for (auto& e : cache_)
-            std::cout << e.second << " ";
-        std::cout << std::endl;
+            os << e.second << " ";
+        os << std::endl;
     }
 
     bool is_full() const
