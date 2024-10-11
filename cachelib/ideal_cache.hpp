@@ -106,7 +106,7 @@ private:
                 break;
             }
 
-            if (cur_max_ind < it->req_queue.front() | cur_max_ind == -1) {
+            if (cur_max_ind < it->req_queue.front() || cur_max_ind == -1) {
                 cur_max_ind = it->req_queue.front();
                 cur_max = it;
             }
